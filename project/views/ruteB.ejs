@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cari Alternatif Rute Busway Tercepat</title>
+    <link rel="stylesheet" href="css/ruteB.css">
+</head>
+<body>
+
+    <%- include('layout/navbar.ejs') %>
+
+    <div class="container-ruteB">
+        <h1>Rute Busway</h1>
+        <form id="routeForm">
+            <input type="text" id="origin" placeholder="Lokasi asal">
+            <br>
+            <input type="text" id="destination" placeholder="Lokasi tujuan">
+            <br>
+            <button class="button-50" role="button"  type="submit" value="Cari">Cari</button>
+        </form>
+        <div id="results"></div>
+    </div>
+
+    <script>
+        
+    </script>
+
+    <%- include('layout/footer.ejs') %>
+
+    <script src="js/ruteB.js"></script>
+</body>
+</html>

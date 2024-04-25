@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Profile</h1>
+            <h2 class="profile-name" id="profileName">A</h2>
+            <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i>Logout</button>
+        </div>
+        <div class="avatar">
+            <img src="https://i.pinimg.com/474x/35/c5/87/35c58704d8812a9cd32e2ce30121ed6e.jpg" alt="Avatar">
+        </div>
+        <form id="form">
+            <label for="date">Tanggal:</label>
+            <input type="date" id="date" name="date" required>
+            <label for="amount">Total (Rp):</label>
+            <input type="number" id="amount" name="amount" min="3000" max="50000" required>
+            <label for="description">Keterangan:</label>
+            <input type="text" id="description" name="description" pattern="[A-Za-z\s]+" title="Hanya huruf dan spasi yang diperbolehkan" required>
+            <button type="submit">Tambah</button>
+            <button type="button" class="save-btn" onclick="saveEntry()">Save</button>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>Tanggal</th>
+                    <th>Total (Rp)</th>
+                    <th>Keterangan</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody id="entries"></tbody>
+        </table>
+    </div>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
