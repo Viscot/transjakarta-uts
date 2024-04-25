@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
-  secret: 'rahasia',    
+  secret: 'rahasia',
   resave: false,
   saveUninitialized: true
 }));
