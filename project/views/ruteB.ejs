@@ -24,6 +24,16 @@
 
     <!--Penambahan rute-->
 
+    <div class="container">
+        <div id="routes-list"></div>
+        <form id="route-form">
+            <input type="text" id="route-name" placeholder="Enter Route Name" required>
+            <button type="submit"><i class="fas fa-plus"></i> Add Route</button>
+            <button type="button" id="save-route"><i class="fas fa-save"></i> Save</button>
+        </form>
+    </div>
+
+    
     <%- include('layout/footer.ejs') %>
 
     <script src="js/ruteB.js"></script>
