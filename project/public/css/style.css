@@ -17,13 +17,16 @@
     left: 0;
     right: 0;
     height: 50px;
-    display: inline-flex;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background-image: linear-gradient(to right top, #315790, #3164a6, #2e71bc, #267fd4, #128deb);
     color: white;
     box-shadow: 1px 3px 4px #E6E6E6;
-    align-items: center;
     z-index: 1000;
+    transition: background-color 0.3s ease;
   }
+  
   
   .navigation {
     display: inline-flex;
@@ -32,10 +35,28 @@
   }
   
   .brand {
-    flex: 1;
-    margin: 0 25px;
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+    padding: 2px; 
+    border-radius: 8px; 
+    background-color: white; 
   }
   
+  .brand img {
+    width: 40px; 
+    margin-right: 5px; 
+    margin-top: -4px;
+    transition: transform 0.3s ease;
+  }
+  
+  .brand h3 {
+    display: inline-block;
+    margin: 0;
+    color: #315790; 
+    font-size: 16px; 
+  }
+      
   .menu {
     display: flex;
     list-style:none;
@@ -295,7 +316,24 @@
     padding: 0 3px;
     width: fit-content;
   }
-  
+
+  /* Tambahkan gaya tambahan di sini jika diperlukan */
+  table {
+      width: 100%;
+      border-collapse: collapse;
+  }
+  th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+  }
+  th {
+      background-color: #f2f2f2;
+  }
+  tr:nth-child(even) {
+      background-color: #f2f2f2;
+  }
+
   .coolinput input[type=text].input {
     width: 390%;
     padding: 11px 10px;
@@ -307,7 +345,7 @@
   
   input[type=text], select, textarea {
     width: 100%;
-    padding: 12px;
+    max-width: 500px; /* Batasi lebar maksimum input agar tidak melebihi lebar kontainer */    padding: 12px;
     border: 1px solid #ccc;
     margin-top: 6px;
     margin-bottom: 16px;
@@ -556,7 +594,20 @@
     margin-bottom: 0px;
     margin-left: 0px;
   }
-  
+  .container-weather {
+    width: 200px;
+    height: auto;
+    background-color: rgb(70, 146, 227);
+    padding: 5px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    animation: fade-in 1s ease;
+    position: absolute; 
+    top: 90px; 
+    left: 20px;
+}
+
   .text-blk.subHeadingText {
     color: rgb(102, 102, 102);
     font-size: 26px;
@@ -868,7 +919,14 @@
       padding-bottom: 0px;
       padding-left: 0px;
     }
-  
+    .container-weather {
+      width: 100%; 
+      margin-bottom: 20px;
+
+      position: relative; 
+      top: 50; 
+      left: 0; 
+    }
     .responsive-container-block.Container {
       flex-direction: column;
       height: auto;
@@ -1344,84 +1402,148 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-  }
-  
-  .project-item {
+}
+
+.project-item {
     margin-bottom: 30px;
-  }
-  
-  .project-info {
-    display: flex;
-    align-items: center;
-  }
-  
-  .projects img {
-    width: 300px;
-    height: auto;
-    margin-right: 20px;
-  }
-  
-  .text-content {
-    flex: 1;
-  }
-  
-  .even .project-info {
-    flex-direction: row-reverse;
-  }
-  
-  .even .text-content {
-    text-align: right;
-  }
-  
-  .section-title {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .project-info h1,
-  .project-info h2,
-  .project-info p {
-    margin-bottom: 10px;
-  }
-  
-  .project-item.card {
-    position: relative;
     display: flex;
     flex-direction: column;
-    border-radius: 10px;
+    align-items: center; /* Center items horizontally */
+    text-align: center; /* Center text */
+}
+
+.project-info {
+    margin-top: 20px; /* Add margin between image and text */
+}
+
+.projects img {
+    max-width: 100%;
+    height: auto;
     margin-bottom: 20px;
+}
+
+.text-content {
+    flex: 1;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.project-info h1,
+.project-info h2,
+.project-info p {
+    margin-bottom: 10px;
+}
+
+.project-item.card {
+    position: relative;
+    border-radius: 10px;
     overflow: hidden;
     border: 2px solid transparent;
     background-color: transparent;
     transition: border-color 0.3s ease;
-  }
-  
-  .card-image {
-    width: 600px;
-    height: auto; 
+}
+
+.card-image {
+    width: 100%;
+    height: auto;
     overflow: hidden;
-  }
-  
-  .card-image img {
-    width: auto;
-    height: 100%;
+}
+
+.card-image img {
+    width: 100%;
+    height: auto;
     object-fit: cover;
     transform: scale(1.08);
-  }
-  
-  .text-content {
+}
+
+.text-content {
     padding: 20px;
-  }
-  
-  .text-content h1, .text-content h2, .text-content p {
+}
+
+.text-content h1, .text-content h2, .text-content p {
     margin: 0;
-  }
-  
-  .section-title {
+}
+
+.section-title {
     text-align: center;
-  }
-  
-  
+}
+.projects {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.project-item {
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.project-info {
+    display: flex;
+    align-items: center;
+}
+
+.projects img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.text-content {
+    flex: 1;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.project-info h1,
+.project-info h2,
+.project-info p {
+    margin-bottom: 10px;
+}
+
+.project-item.card {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid transparent;
+    background-color: transparent;
+    transition: border-color 0.3s ease;
+}
+
+.card-image {
+    width: 50%;
+    height: auto;
+    overflow: hidden;
+}
+
+.card-image img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    transform: scale(1.08);
+}
+
+.text-content {
+    padding: 20px;
+}
+
+.text-content h1, .text-content h2, .text-content p {
+    margin: 0;
+}
+
+.section-title {
+    text-align: center;
+}
+
+
   .project-item.card::before,
   .project-item.card::after {
     content: "";
@@ -1454,143 +1576,179 @@
     opacity: 1; 
   }
   
-  
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.column {
+    flex: 1;
+    margin: 20px;
+}
+
+.map {
+    max-width: 100%;
+    height: auto;
+}
+
+.coolinput {
+    margin-bottom: 15px;
+}
+
+
+
+.button-85 {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
   
   /* End jenis bus css*/
   
   /* Smartphone (portrait) */
   @media only screen and (max-width: 768px) {
     /* Navbar */
-    .navigation {
-      margin: 0;
-    }
-    
     .menu {
-      display: none;
+        display: none;
     }
-    
+    .input {
+        width: 80%;
+        max-width: none;
+    }
+
+    .column {
+        width: 100%;
+    }
+
     .brand {
-      margin: 0;
+        margin: 0;
     }
-    
+
     .search-bar {
-      margin-top: 0;
-      margin-bottom: 10px;
+        margin-top: 0;
+        margin-bottom: 10px;
     }
-    
+
     /* Contact */
     .column {
-      width: 100%;
-      padding: 10px;
+        width: 100%;
+        padding: 10px;
     }
-  
+
     input[type=text], select, textarea {
-      width: calc(100% - 24px); 
+        width: calc(100% - 24px); 
     }
-  
+
     input[type=submit] {
-      width: 100%; 
+        width: 100%; 
     }
-    
+
     /* Koridor */
     .content {
-      width: 90%;
-      padding: 10px;
+        width: 90%;
+        padding: 10px;
     }
-    
+
     /* About */
     .allText {
-      width: 100%;
+        width: 100%;
     }
-    
+
     .responsive-container-block.Container {
-      margin-top: 50px;
-      margin-bottom: 30px;
+        margin-top: 50px;
+        margin-bottom: 30px;
     }
-    
+
     .mainImg {
-      margin-bottom: 20px;
+        margin-bottom: 20px;
     }
-    
+
     /* Footer */
     .footer-container {
-      flex-direction: column;
-      text-align: center;
+        flex-direction: column;
+        text-align: center;
     }
-    
+    .project-item {
+        flex-direction: column-reverse;
+    }
+
+    .projects img {
+        order: -1;
+        margin-bottom: 0;
+    }
+
+    .text-content {
+        padding: 20px;
+    }
+
     .footer-left,
     .footer-center,
     .footer-right {
-      margin-bottom: 30px;
+        margin-bottom: 30px;
     }
-    
+
     /* Carousel */
     .carousel {
-      margin-left: 0;
-      margin-right: 0;
+        margin-left: 0;
+        margin-right: 0;
     }
-    
+    .project-info {
+        margin-top: 0; /* Remove margin between image and text */
+    }
     .slide-image img {
-      min-width: 100%;
-      min-height: 100%;
+        min-width: 100%;
+        min-height: 100%;
     }
-    
+
     .carousel-controls {
-      font-size: 60px;
+        font-size: 60px;
     }
-    
+
     .carousel-dots {
-      bottom: 10px;
+        bottom: 10px;
     }
-    
+
     /* Jenis Bus */
     .projects img {
-      width: 100%;
-      margin: 0;
-      margin-bottom: 10px;
+        width: 100%;
+        margin: 0;
+        margin-bottom: 10px;
     }
-    
+
     .text-content {
-      padding: 10px;
+        padding: 10px;
     }
-  }
-  
-  
-  /* Weather */
-  .container-weather {
-    width: 200px;
-    height: auto;
-    background-color: rgb(70, 146, 227);
-    padding: 5px;
-    border-radius: 10px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-    text-align: center;
-    animation: fade-in 1s ease;
-    position: absolute; 
-    top: 90px; 
-    left: 20px;
-  }
-  
-  @keyframes fade-in {
+}
+
+
+/* Weather */
+
+@keyframes fade-in {
     from { opacity: 0; transform: translateY(-20px); }
     to { opacity: 1; transform: translateY(0); }
-  }
-  
-  .weather-icon {
+}
+
+.weather-icon {
     width: 40px; 
     height: 40px; 
     margin: 5px auto;
     animation: float 3s ease infinite alternate;
-  }
-  
-  .weather-info,
-  .temperature-info {
+}
+
+.weather-info,
+.temperature-info {
     margin-top: 5px; 
     font-size: 12px;
     color: #555;
-  }
-  
-  .icon-weather {
+}
+
+.icon-weather {
     margin-right: 5px;
-  }
-  
+}

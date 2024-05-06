@@ -1,3 +1,4 @@
+
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
@@ -7,7 +8,7 @@ const flash = require('connect-flash');
 const { Schema } = mongoose;
 
 const app = express();
-const port = 3000;
+const port = 3002;
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -23,7 +24,7 @@ app.use(session({
 
 app.use(flash());
 
-mongoose.connect('mongodb://localhost:27017/nama_database', {
+mongoose.connect('mongodb://localhost:27017/transj', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
@@ -34,13 +35,6 @@ mongoose.connect('mongodb://localhost:27017/nama_database', {
     console.error('Koneksi ke MongoDB gagal:', err);
   });
 
-const kendalaSchema = new Schema({
-  firstname: String,
-  lastname: String,
-  country: String,
-  subject: String,
-});
-
 const loginSchema = new Schema({
   username: String,
   email: String,
@@ -49,100 +43,299 @@ const loginSchema = new Schema({
   phoneNumber: String
 });
 
-const userSchema = new Schema({
+const userSchema = new mongoose.Schema({
   username: String,
+  email: String,
   password: String,
+  phoneNumber: String,
+  role: { type: String, enum: ['user', 'admin'], default: 'user' } 
 });
 
+const tjSchema = new mongoose.Schema({
+  route_id: String,
+  agency_id: String, 
+  route_short_name: String, 
+  route_long_name: String,
+  route_desc: String,
+  route_type: Number, 
+  route_color: String,
+  route_text_color: String 
+});
+
+const kendalaSchema = new mongoose.Schema({
+  firstName: String,
+  lastName: String,
+  daerah: String,
+  kendala: String
+});
+
+const Kendala = mongoose.model('Kendala', kendalaSchema);
 const Login = mongoose.model('Login', loginSchema);
 const User = mongoose.model('User', userSchema);
-const Kendala = mongoose.model('Kendala', kendalaSchema);
+const Tj = mongoose.model('Tj', tjSchema);
 
-app.post("/", async (req, res) => {
-  const data = new Kendala({
-    firstname: req.body.firstname,
-    lastname: req.body.lastname,
-    country: req.body.country,
-    subject: req.body.subject,
-  });
+app.use(bodyParser.urlencoded({ extended: true }));
 
+app.post('/signup', async (req, res) => {
   try {
-    const newKendala = await data.save();
-    console.log("Data terkirim:", newKendala);
+      const { username, email, password, phoneNumber } = req.body;
+      const user = new User({ username, email, password, phoneNumber });
+      await user.save();
+      res.send('Registration successful');
   } catch (err) {
-    console.error("Gagal menyimpan data:", err);
-    res.status(500).send("Terjadi kesalahan saat menyimpan data");
+      console.error(err);
+      res.status(500).send('Error registering user');
   }
-});  
+});
 
-app.post("/login", async (req, res) => {
+app.post('/login', async (req, res) => {
   const { username, password } = req.body;
-
   try {
-    const user = await Login.findOne({ username });
-    if (!user) {
-      return res.status(404).send("Username tidak terdaftar. Silakan daftar terlebih dahulu.");
-    }
+      const user = await User.findOne({ username, password });
+      if (user) {
+          req.session.isLoggedIn = true;
+          req.session.username = user.username;
+          if (user.role === 'admin') {
+              req.session.role = 'admin'; 
+              res.redirect('/admindash');
+          } else {
+            req.session.role = 'user'; 
+              res.redirect('/userhome');
+          }
+      } else {
+          res.status(401).send('Invalid username or password');
+      }
+  } catch (err) {
+      console.error(err);
+      res.status(500).send('Error logging in');
+  }
+});
 
-    if (user.password !== password) {
-      return res.status(401).send("Password salah");
-    }
 
-    res.redirect(`/dashboard?username=${username}`);
+app.get('/', async (req, res) => {
+  try {
+      const tjData = await Tj.find();
+      res.render('index', { title: 'User Dashboard', tjData }); 
   } catch (error) {
-    console.error("Terjadi kesalahan saat login:", error);
-    res.status(500).send("Terjadi kesalahan saat login");
+      console.error("Error fetching data:", error);
+      res.status(500).send("Error fetching data");
   }
 });
 
-app.post("/signup", async (req, res) => {
-  const { username, password } = req.body;
 
-  try {
-    const existingUser = await Login.findOne({ username });
-    if (existingUser) {
-      return res.status(400).send("Username sudah terdaftar. Silakan gunakan username lain.");
-    }
-
-    const newUser = new Login({
-      username,
-      email: req.body.email,
-      password,
-      confirmpass: req.body.confirmpass,
-      phoneNumber: req.body.phoneNumber
-    });
-
-    const savedUser = await newUser.save();
-    console.log("User baru terdaftar:", savedUser);
-    res.redirect("/dashboard");
-  } catch (err) {
-    console.error("Gagal melakukan registrasi:", err);
-    res.status(500).send("Terjadi kesalahan saat melakukan registrasi");
-  }
-});
-
-app.get('/', (req, res) => {
-  res.render('index');
-});
 
 app.get('/login', (req, res) => {
   res.render('login', { title: 'Login' });
 });
 
-app.get('/ruteB', (req, res) => {
-  res.render('ruteB', { title: 'ruteBusway' });
+app.get('/signup', (req, res) => {
+  res.render('signup', { title: 'signup' });
 });
 
-app.get('/dashboard', (req, res) => {
-  res.render('dashboard', { title: 'profile' });
+
+app.get('/admindash', isAdmin, async (req, res) => {
+  try {
+    const tjData = await Tj.find();
+    res.render('admindash', { title: 'Admin Menu', tjData, isLoggedIn: req.session.isLoggedIn });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Internal Server Error');
+  }
 });
+
+
+function isAdmin(req, res, next) {
+  if (req.session && req.session.isLoggedIn && req.session.role === 'admin') {
+    return next();
+  } else {
+    console.log("Unauthorized access attempt detected!"); 
+    res.redirect('/login');
+  }
+}
+
+app.get('/rute', isAdmin, async (req, res) => {
+  try {
+    const tjData = await Tj.find();
+    res.render('rute', { title: 'Admin Menu', tjData, isLoggedIn: req.session.isLoggedIn });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+app.get('/userview', isAdmin, async (req, res) => {
+  try {
+    const users = await User.find();
+    res.render('userview', { title: 'Admin Menu', users, isLoggedIn: req.session.isLoggedIn });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
+function isUser(req, res, next) {
+  if (req.session && req.session.isLoggedIn && req.session.role === 'user') {
+    return next();
+  } else {
+    console.log("Unauthorized access attempt detected!"); 
+    res.redirect('/login');
+  }
+}
+
+app.get('/userhome', isUser, async (req, res) => {
+  try {
+    const tjData = await Tj.find();
+    res.render('userhome', { title: 'Admin Menu', tjData, isLoggedIn: req.session.isLoggedIn });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+app.get('/ruteB', async (req, res) => {
+  try {
+      const tjData = await Tj.find();
+      res.render('RuteB', { title: 'User Dashboard', tjData }); 
+  } catch (error) {
+      console.error("Error fetching data:", error);
+      res.status(500).send("Error fetching data");
+  }
+});
+app.get('/tj/add', (req, res) => {
+  res.render('tj_add', { title: 'Tambah Data TJ', isLoggedIn: req.session.isLoggedIn });
+});
+app.post('/tj/add', async (req, res) => {
+  try {
+    const { route_id, agency_id, route_short_name, route_long_name, route_desc, route_type, route_color, route_text_color } = req.body;
+    const tj = new Tj({ route_id, agency_id, route_short_name, route_long_name, route_desc, route_type, route_color, route_text_color });
+    await tj.save();
+    res.redirect('/rute');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error creating TJ data');
+  }
+});
+app.get('/tj/edit/:id', async (req, res) => {
+  try {
+    const tj = await Tj.findById(req.params.id);
+    res.render('tj_edit', { title: 'Edit Data TJ', tj });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
+app.post('/tj/edit/:id', async (req, res) => {
+  try {
+    const { route_id, agency_id, route_short_name, route_long_name, route_desc, route_type, route_color, route_text_color } = req.body;
+    await Tj.findByIdAndUpdate(req.params.id, { route_id, agency_id, route_short_name, route_long_name, route_desc, route_type, route_color, route_text_color });
+    res.redirect('/rute');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error updating TJ data');
+  }
+});
+
+
+app.post('/tj/delete/:id', async (req, res) => {
+  try {
+    await Tj.findByIdAndDelete(req.params.id);
+    res.redirect('/rute');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error deleting TJ data');
+  }
+});
+
+
+app.get('/user', async (req, res) => {
+  try {
+    const users = await User.find();
+    res.render('userDashboard', { users });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+app.get('/logout', (req, res) => {
+  req.session.destroy(err => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      res.redirect('/index');
+    }
+  });
+});
+
+app.get('/index', async (req, res) => {
+    try {
+        const tjData = await Tj.find();
+        res.render('index', { title: 'User Dashboard', tjData }); 
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        res.status(500).send("Error fetching data");
+    }
+});
+
+app.get('/send-kendala', isUser, (req, res) => {  
+  res.render('send-kendala-form'); 
+});
+
+
+app.post('/send-kendala', isUser, async (req, res) => {
+  try {
+
+    const { firstName, lastName, daerah, kendala } = req.body;
+   
+    const newKendala = new Kendala({ firstName, lastName, daerah, kendala });
+
+    await newKendala.save();
+  
+    res.redirect('/userhome');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+app.get('/lihatkendala', isAdmin, async (req, res) => {
+  try {
+    const kendalas = await Kendala.find(); 
+    res.render('lihatkendala', { kendalas });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 
 app.get('/berita', (req, res) => {
   res.render('berita', { title: 'berita' });
 });
 
+app.get('/tj', async (req, res) => {
+  try {
+    const tjData = await Tj.find();
+    res.render('tj', { title: 'Data TJ', tjData });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+app.post('/user/delete/:id', async (req, res) => {
+  try {
+    await User.findByIdAndDelete(req.params.id);
+    res.redirect('/userview');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Internal Server Error');
+  }
+});
 app.listen(port, () => {
-  console.log(`Server berjalan di http://localhost:${port}`);
+  console.log(`Server berjalan di http://localhost:${port}/index`);
 });
 
-module.exports = app;

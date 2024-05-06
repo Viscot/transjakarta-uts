@@ -9,7 +9,7 @@
     <div class="navigation">
         <ul class="menu">
             <li>
-                <a href="/index">Beranda</a>
+                <a href="/userhome">Beranda</a>
             </li>
             <li class="dropdown">
                 <a href="#container-koridor">
@@ -49,9 +49,12 @@
                 <!-- Hasil pencarian akan ditampilkan di sini -->
             </ul>
         </div>
-        <a href="/login" class="login-icon">
-            <i class="fas fa-user"></i>
-        </a>
+        <form action="/logout" method="GET">
+            <button type="submit" class="logout-button">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </form>
+        
     </div>
 </nav>
 

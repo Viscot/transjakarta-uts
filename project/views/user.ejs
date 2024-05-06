@@ -16,7 +16,6 @@
             src="https://kit.fontawesome.com/your-fontawesome-kit.js"
             crossorigin="anonymous"></script>
             <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-            
     </head>
     <body>
         
@@ -97,11 +96,11 @@
 
                         // Menentukan ikon cuaca yang sesuai
                         if (iconCode.includes('n')) { // Malam
-                            weatherIconElement.src = 'images/night.png'; // Gambar bulan untuk malam
+                            weatherIconElement.src = 'https://media.discordapp.net/attachments/1010915481990991943/1228671903648972890/moon.png?ex=662ce4e1&is=661a6fe1&hm=769f15dbd0c93e94a7b8b617f2c642576e02e50109786d28e7023f133cada0a0&=&format=webp&quality=lossless&width=585&height=585'; // Gambar bulan untuk malam
                         } else if (iconCode.includes('d')) { // Siang
-                            weatherIconElement.src = 'images/siang.png'; // Gambar matahari untuk siang
+                            weatherIconElement.src = 'https://media.discordapp.net/attachments/1010915481990991943/1228671933437186089/sun.png?ex=662ce4e8&is=661a6fe8&hm=16c5fda396d16441c595697f857bab6b6e14787081b7465e61099c66583cb353&=&format=webp&quality=lossless&width=585&height=585'; // Gambar matahari untuk siang
                         } else if (weatherDescription.includes('hujan')) { // Hujan
-                            weatherIconElement.src = 'images/rain.png'; // Gambar hujan untuk kondisi hujan
+                            weatherIconElement.src = 'https://media.discordapp.net/attachments/1010915481990991943/1228673850720391414/weather-forcast-storm-rain-thunder-day_108615.png?ex=662ce6b1&is=661a71b1&hm=5d89fd35c9439f11d0ee80bc66f69c2f112e2fc78480ad589a5ad39b2c896f10&=&format=webp&quality=lossless&width=585&height=585'; // Gambar hujan untuk kondisi hujan
                         } else { // Pagi atau kondisi lainnya
                             weatherIconElement.src = `http://openweathermap.org/img/wn/${iconCode}.png`; // Gunakan ikon cuaca standar
                         }
@@ -126,7 +125,7 @@
               <input type="radio" name="radio-buttons" id="img-1" checked />
               <li class="slide-container">
                 <div class="slide-image">
-                  <img src="https://pbs.twimg.com/media/FN8jETkaIAEtWkO.jpg:large">
+                  <img src="https://img.okezone.com/content/2022/05/09/338/2590960/usai-libur-lebaran-pengguna-bus-transjakarta-mulai-ramai-hari-ini-vjtOPRyA1q.jpg">
                 </div>
                 <div class="carousel-controls">
                   <label for="img-3" class="prev-slide">
@@ -199,34 +198,39 @@
           </div>
       </div>
       
-       <div class="content">
-        <h2>Cari Rute</h2>
-        <input type="text" id="search" oninput="searchTable()" placeholder="Type to search...">
-        <table id="table">
-            <thead>
-                <tr>
-                    <th>Route ID</th>
-                    <th>Agency ID</th>
-                    <th>Route Short Name</th>
-                    <th>Route Long Name</th>
-                    <th>Route Description</th>
-                    <th>Route Type</th>
-                </tr>
-            </thead>
-            <tbody id="dataTable">
-                <% tjData.forEach(data => { %>
-                    <tr>
-                        <td><%= data.route_id %></td>
-                        <td><%= data.agency_id %></td>
-                        <td><%= data.route_short_name %></td>
-                        <td><%= data.route_long_name %></td>
-                        <td><%= data.route_desc %></td>
-                        <td><%= data.route_type %></td>
-                    </tr>
-                <% }); %>
-            </tbody>
-        </table>
-    </div>
+      <div class="content">
+        
+        <label for="search">Search:</label>
+        
+      <input type="text" id="search" oninput="searchTable()" placeholder="Type to search...">
+      <table id="table">
+      <thead>
+        <td><tr>
+            <th>Route ID</th>
+            <th>Agency ID</th>
+            <th>Route Short Name</th>
+            <th>Route Long Name</th>
+            <th>Route Description</th>
+            <th>Route Type</th>
+        </tr></td>
+        </thead>
+    </table>
+      <table id="dataTable">
+         
+          <tbody>
+              <% tjData.forEach(data => { %>
+                  <tr>
+                      <td><%= data.route_id %></td>
+                      <td><%= data.agency_id %></td>
+                      <td><%= data.route_short_name %></td>
+                      <td><%= data.route_long_name %></td>
+                      <td><%= data.route_desc %></td>
+                      <td><%= data.route_type %></td>
+                  </tr>
+              <% }); %>
+          </tbody>
+      </table>
+      </div>
       <script>
    
             function searchTable() {
@@ -315,30 +319,25 @@
         
         <div class="row">
             <div class="column">
-              <div class="service-card">
-                <div>
-                  <img class="service-img" src="images/pelayanan1.png" alt="Pelayanan 1">
-                </div>
+            <div class="service-card">
+                <img class="icon" src="https://media.discordapp.net/attachments/1010915481990991943/1224260079583367249/communication_assistance_help_support_service_information_icon_230570.png?ex=661cd80c&is=660a630c&hm=c311881a8813a91f389af9c511a1f701872c1219b8a3b5fb0f5717803d14aba3&=&format=webp&quality=lossless&width=585&height=585" alt="BRT">
                 <div class="container">
-                  <h2>Layanan BRT TransJakarta</h2>
-                  <p>Layanan TransJakarta yang melayani pelanggan di jalur umum, yang berarti bus TransJakarta berbagi jalan dengan kendaraan lainnya</p>
+                <h2>Layanan BRT TransJakarta</h2>
+                <p>Layanan TransJakarta yang melayani pelanggan di jalur umum, yang berarti bus TransJakarta berbagi jalan dengan kendaraan lainnya</p>
                 </div>
-              </div>
             </div>
-          
+            </div>
+        
             <div class="column">
-              <div class="service-card">
-                <div>
-                    <img class="service-img" src="images/pelayanan2.png" alt="Pelayanan 2">
-                </div>
+            <div class="service-card">
+                <img class="icon" src="https://media.discordapp.net/attachments/1010915481990991943/1224260079901999194/communication_assistance_help_support_service_information_icon_230498.png?ex=661cd80c&is=660a630c&hm=0dd8e7cbbfe901718e963a80a83bc1a567d2a697c6de10daa949088b37e30685&=&format=webp&quality=lossless&width=585&height=585" alt="BST">
                 <div class="container">
-                  <h2>Layanan BST TransJakarta</h2>
-                  <p>Layanan BRT yang memiliki jalur khusus yang terpisah dari kendaraan pribadi atau publik lainnya, kecuali kendaraan TransJakarta</p>
+                <h2>Layanan BST TransJakarta</h2>
+                <p>Layanan BRT yang memiliki jalur khusus yang terpisah dari kendaraan pribadi atau publik lainnya, kecuali kendaraan TransJakarta</p>
                 </div>
-              </div>
             </div>
-          </div>
-          
+            </div>
+        </div>
         
         <div class="about-section" id="benefit-pages">
             <h1>Benefit</h1>
@@ -347,8 +346,8 @@
         <div class="row">
             <div class="column">
             <div class="benefit-card">
+                <img class="icon" src="https://media.discordapp.net/attachments/1010915481990991943/1224016509060513853/thumb.png?ex=661bf534&is=66098034&hm=56be3e63a828a05f4cbe930b738eb33fccbc3ff59034c1ea013c122c869dc04b&=&format=webp&quality=lossless&width=585&height=585" alt="Like">
                 <div class="container">
-                    <img class="service-img" src="images/jempolnaik.png" alt="jempolnaik">
                 <h2>Kelebihan</h2>
                 <p>Tarif ongkos murah Bus Transjakarta adalah salah satu transportasi umum dengan tarif Rp 3500 sudah bisa keliling kota Jakarta dan Keamanan dan keselamatan lebih terjamin Keselamatan di dalam bus ini lebih terjamin karena mempunyai jalur tersendiri saat beroperasi di jalan.</p>
                 </div>
@@ -357,8 +356,8 @@
         
             <div class="column">
             <div class="benefit-card">
+                <img class="icon" src="https://media.discordapp.net/attachments/1010915481990991943/1224016508682899536/dislike.png?ex=661bf534&is=66098034&hm=db1143c91502873152545829f06f7fed910dbf948fe1c0b322f94681f0cd2355&=&format=webp&quality=lossless&width=585&height=585" alt="Dislike">
                 <div class="container">
-                    <img class="service-img" src="images/jempolturun.png" alt="jempolturun">
                 <h2>Kekurangan</h2>
                 <p>Frekuensi waktu menunggu cukup lama di saat menunggu bus tiba di halte bisa memakan waktu yang lama berkisaran antara 15-30 menit dan armadanya bus sedikit untuk jam sibuk di Jakarta biasanya penumpang busway overload sehingga penumpang harus bersempit-sempitan di dalam bus</p>
                 </div>
@@ -558,37 +557,36 @@
                             referrerpolicy="no-referrer-when-downgrade"
                             class="map"></iframe>
 
-                            <div class="column">
-                                <h1>Kirim Kendala</h1>
-                                <form action="/send-kendala" method="post">
-                                  <div class="coolinput">
-                                    <label for="firstName" class="text">Nama Depan</label>
-                                    <input type="text" id="firstName" name="firstName" placeholder="Nama Depan" class="input">
-                                  </div>
-                                  <div class="coolinput">
-                                    <label for="lastName" class="text">Nama Belakang</label>
-                                    <input type="text" id="lastName" name="lastName" placeholder="Nama Belakang" class="input">
-                                  </div>
-                                  <div class="coolinput">
-                                    <label for="daerah" class="text">Daerah</label>
-                                    <select id="daerah" name="daerah" class="input">
-                                      <option value="Jakarta Barat">Jakarta Barat</option>
-                                      <option value="Jakarta Timur">Jakarta Timur</option>
-                                      <option value="Jakarta Selatan">Jakarta Selatan</option>
-                                      <option value="Jakarta Utara">Jakarta Utara</option>
-                                      <option value="Cibubur">Cibubur</option>
-                                      <option value="Bekasi">Bekasi</option>
-                                      <option value="Depok">Depok</option>
-                                      <option value="Tangerang">Tangerang</option>
-                                    </select>
-                                  </div>
-                                  <div class="coolinput">
-                                    <label for="kendala" class="text">Kendala</label>
-                                    <textarea id="kendala" name="kendala" placeholder="Tulis kendala Anda di sini..." style="height: 100px;" class="input"></textarea>
-                                  </div>
-                                  <button type="submit" class="button-85">Kirim</button>
-                                </form>
-                              </div>
+                        <div class="column">
+                            <form action="/" method="post" onsubmit="return validateForm();">
+                                <div class="coolinput">
+                                    <label for="input" class="text">Name Depan</label>
+                                    <input type="text" id="fname" name="firstname" placeholder="Write here..." name="input" class="input">
+                                </div>
+                                <div class="coolinput">
+                                    <label for="input" class="text">Name Belakang</label>
+                                    <input type="text" id="lname" name="lastname" placeholder="Write here..." name="input" class="input">
+                                </div>
+                                <label for="country">Daerah</label>
+                                <select id="country" name="country">
+                                    <option value="jakarta-barat">Jakarta Barat</option>
+                                    <option value="jakarta-timur">Jakarta Timur</option>
+                                    <option value="jakarta-selatan">Jakarta Selatan</option>
+                                    <option value="jakarta-utara">Jakarta Utara</option>
+                                    <option value="cibubur">Cibubur</option>
+                                    <option value="bekasi">Bekasi</option>
+                                    <option value="depok">Depok</option>
+                                    <option value="tangerang">Tangerang</option>
+                                </select>
+                                <label for="subject">Kendala</label>
+                                <textarea
+                                    id="subject"
+                                    name="subject"
+                                    placeholder="Write something.."
+                                    style="height:170px"></textarea>
+                                <button class="button-85" role="button" type="submit" value="Submit">Submit</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
 
