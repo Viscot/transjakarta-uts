@@ -9,3 +9,6 @@ Import data yang berada nama database transj lalu pilih yang tjs masukkan ke dal
 
 berikut adalah dokumentasi hasil project
 https://www.canva.com/design/DAGCBEEnOC8/MWd5mpW6n5NZHrVqVf3s0g/edit?referrer=presentations-landing-page 
+
+berikut adalah link presentasi project
+https://youtu.be/XoCFJcFi-mw?si=lQ55jFO4LfN6gte-
